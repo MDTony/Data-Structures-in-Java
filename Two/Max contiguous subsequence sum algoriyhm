@@ -1,4 +1,4 @@
-/*
+        /*
 	 * Cubic maximum contiguous subsequence sum algorithm
 	 */
 	public static int maxSubSum1(int a[]) {
