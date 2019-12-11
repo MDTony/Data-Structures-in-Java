@@ -1,0 +1,20 @@
+  /*
+	 * Perform standard binary search algorithm.
+	 * @return index where item is found, or -1 if not found.
+	 */
+	public static <T extends Comparable<? super T>> int binarySearch(T a[], T t) {
+		
+		int low=0, high=a.length-1;
+		
+		if(low<=high) {
+			int mid=(low+high)/2;
+			if(a[mid].compareTo(t)<0)
+				low=mid+1;
+			if(a[mid].compareTo(t)>0)
+				high=mid-1;
+			else
+				return mid;
+		}
+		
+		return -1;
+	}
