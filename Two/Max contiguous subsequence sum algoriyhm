@@ -1,0 +1,108 @@
+/*
+	 * Cubic maximum contiguous subsequence sum algorithm
+	 */
+	public static int maxSubSum1(int a[]) {
+		
+		int maxSum=0;
+		
+		for(int i=0; i<a.length; i++) {
+			for(int j=i; j<a.length; j++) {
+				
+				int thisMax=0;
+				
+				for(int k=i; k<=j; k++) 
+					thisMax+=a[k];
+				
+				if(thisMax>maxSum)
+					maxSum=thisMax;
+			}
+		}
+		
+		return maxSum;
+	}
+	
+	
+	/*
+	 * Quadratic maximum contiguous subsequence sum algorithm
+	 */
+	public static int maxSubSum2(int a[]) {
+		
+		int maxSum=0;
+		
+		for(int i=0; i<a.length; i++) {
+			
+			int thisMax=0;
+			
+			for(int j=i; j<a.length; j++) {
+				
+				thisMax+=a[j];
+				
+				if(thisMax>maxSum)
+					maxSum=thisMax;
+			}
+		}
+		
+		return maxSum;
+	}
+	
+	
+	/*
+	 * Recursive maximum contiguous subsequence sum algorithm.
+	 * Finds maximum sum in subarray spanning a[left..right].
+	 * Does not attempt to maintain actual best sequence.
+	 */
+	public static int maxSumRec(int a[], int left, int right) {
+		
+		if(left==right)			//Base case
+			if(a[left]>0)
+				return a[left];
+			else
+				return 0;
+		
+		int center=(left+right)/2;			//Recursive invoke
+		int maxLeftSum=maxSumRec(a, left, center);			//Left		
+		int maxRightSum=maxSumRec(a, center+1, right);			//Right
+		
+		int thisMaxLeftSum=0, thisLeftSum=0;			//Medium(left)
+		for(int i=center; i>=left; i--) {
+			
+			thisLeftSum+=a[i];
+			
+			if(thisLeftSum>thisMaxLeftSum)
+				thisMaxLeftSum=thisLeftSum;
+		}
+		
+		int thisMaxRightSum=0, thisRightSum=0;			//Medium(right)
+		for(int i=center+1; i<=right; i++) {
+			
+			thisRightSum+=a[i];
+					
+			if(thisRightSum>thisMaxRightSum)
+				thisMaxRightSum=thisRightSum;			
+		}
+		
+		int thisMaxSum=thisMaxLeftSum+thisMaxRightSum;			//Medium(left plus right)
+		
+		return Math.max(thisMaxSum, Math.max(maxLeftSum, maxRightSum));		//return the biggest one among left,right and medium.
+	}
+	
+	
+	/*
+	 * Linear-time maximum contiguous subsequence sum algorithm
+	 */
+	public static int maxSubSum4(int a[]) {
+		
+		int maxSum=0, thisSum=0;
+		
+		for(int i=0; i<a.length; i++) {
+			thisSum+=a[i];
+			
+			if(thisSum>maxSum)
+				maxSum=thisSum;
+			
+			if(thisSum<0)
+				thisSum=0;
+		}
+		return maxSum;
+		
+	}
