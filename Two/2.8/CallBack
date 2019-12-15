@@ -1,0 +1,8 @@
+/*
+ *CallBack function interface.
+ */
+public interface CallBack {
+	
+	public void excute();
+
+}
