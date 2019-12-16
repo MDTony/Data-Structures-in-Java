@@ -1,0 +1,41 @@
+  /*
+	 * Research an array whether meets the condition of arr[i]=i  by a iterative research algorithm.
+	 * @arr an array to research.
+	 * @return true if arr[i]=i exists in the array, otherwise false.
+	 */
+	public static <T extends Comparable<? super T>> boolean IntegerCommonResearch(T[] arr) {
+		
+		for(int i = 0; i < arr.length - 1; i++) {
+			if(arr[i].equals(i + 1)) {
+				return true;
+			}	
+		}
+		
+		return false;
+	}
+	
+	/*
+	 * Research an array whether the condition of arr[i]=i by a binary research algorithm.
+	 * @arr an array to research.
+	 * @return true if arr[i]=i exists in the array, otherwise false.
+	 */
+	public static boolean IntegerBinaryResearch(Integer arr[]) {
+		
+		int low = 0, high = arr.length - 1;
+		int mid;
+		while(low <= high) {
+			 mid = (low + high)/2;
+			if(arr[mid] > mid + 1)
+				high = mid - 1;
+			else if(arr[mid] < mid + 1)
+				low = mid + 1;
+			else
+				return true;
+		}
+		return false;
+	}
+	
+	public static void main(String args[]) {
+		Integer[] a = {0, 1, 4, 6, 7};
+		System.out.print(IntegerBinaryResearch(a));
+	}
