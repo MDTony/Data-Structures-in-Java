@@ -1,0 +1,28 @@
+  /*
+	 * Max contiguous subsequence product sum algorithm (Dynamic Programming).
+	 * @param a array to compute.
+	 * @return the Max contiguous subsequence product sum value.
+	 */
+	public static int maxProductSum(Integer[] a) {
+		
+		int len = a.length;
+		int index = 1;
+		int maxSum = a[0];
+		int[][] record = new int[len][2];
+		record[0][0] = a[0];
+		record[0][1] = a[0];
+		
+		while(index < len) {
+			int t1 = record[index - 1][0] * a[index];
+			int t2 = record[index - 1][1] * a[index];
+			
+			record[index][0] = Math.min(a[index], Math.min(t1, t2));
+			record[index][1] = Math.max(a[index], Math.max(t1, t2));
+			
+			maxSum = Math.max(record[index][1], maxSum);
+			
+			index ++;
+		}
+		
+		return maxSum;
+	}
