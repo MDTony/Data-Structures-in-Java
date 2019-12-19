@@ -1,0 +1,110 @@
+  /*
+	 * Minimum contiguous positive subsequence sum algorithm, O(N*N).
+	 * @param a array to compute.
+	 * @return the minimum contiguous positive subsequence sum value.
+	 */
+	public static int minSubPosSumA(int[] a) {
+		
+		int flag = 0, minSum = -1;
+		
+		for(int i = 0; i < a.length; i++) {
+			
+			int thisSum = 0;
+			
+			for(int j = i; j < a.length; j++) {
+				
+				thisSum += a[j];
+				
+				if(flag == 0 && thisSum >= 0) {
+					minSum = thisSum;
+					flag++;
+				}
+				
+				if(thisSum < minSum && thisSum > 0 && flag != 0)
+					minSum = thisSum;
+			}
+		}
+		
+		return minSum;
+	}
+	
+	/*
+	 * Class "Item" is a data structure that contains "value" and "rank", which is used to tag the prefix array value.
+	 */
+	static class Item{
+		
+			private int value;
+			private int rank;
+			
+			public Item() {
+				value = 0;
+				rank = 0;
+			}
+			
+			public Item(int value, int rank) {
+				this.value = value;
+				this.rank = rank;
+			}
+			
+			public int getValue() {
+				return value;
+			}
+			
+			public void setValue(int value) {
+				this.value = value;
+			}
+			
+			public int getRank() {
+				return rank;
+			}
+			
+			public void setRank(int rank) {
+				this.rank = rank;
+			}
+		}
+	
+	/*
+	 * Minimum contiguous positive subsequence sum algorithm.
+	 * @param a the array to compute.
+	 * @return the minimum contiguous positive subsequence sum value.
+	 */
+	public static int minSubPosSumB(Integer[] a) {
+		
+		ArrayList<Item> arr = new ArrayList<Item>();
+		int sum = 0;
+		
+		for(int i = 0; i < a.length - 1; i++) {
+			
+			sum += a[i];
+			Item item = new Item();                //Put it inside the loop
+			item.setValue(sum);
+			item.setRank(i); 
+			arr.add(item);
+			
+		}
+
+		arr.sort(new Comparator<Item>() {
+
+			@Override
+			public int compare(Item o1, Item o2) {
+				// TODO Auto-generated method stub
+				return o1.value - o2.value;
+			}
+			
+		});
+		
+		int flag = 0, minSum = -1;
+		
+		for(int i = 1; i < arr.size() - 1; i++) {
+			
+			if((arr.get(i).value - arr.get(i - 1).value) > 0 && flag == 0 ) {
+				minSum = arr.get(i).value - arr.get(i - 1).value;
+				flag ++;
+			}
+			
+			if((arr.get(i).value - arr.get(i - 1).value) > 0 && flag != 0 && (arr.get(i).rank > arr.get(i - 1).rank) && (arr.get(i).value - arr.get(i - 1).value) < minSum)
+				minSum = arr.get(i).value - arr.get(i - 1).value;	
+		}
+		
+		return minSum;
+	}
