@@ -1,0 +1,39 @@
+  /*
+	 * Recursive minimum contiguous subsequence sum algorithm.
+	 * @param a array to compute.
+	 * @param left begin position on the left.
+	 * @param right end position on the right.
+	 * @return the minimum contiguous subsequence sum value. 
+	 */
+	public static int minSubSum(int a[], int left, int right) {
+		
+		if(left == right)
+			return a[left];
+		
+		int mid = (left + right)/2;
+		int minSubSumLeft = minSubSum(a, left, mid);
+		int minSubSumRight = minSubSum(a, mid + 1, right);
+		
+		int minLeftSum = a[mid], minThisLeft = 0;
+		
+		for(int i = mid; i >= left; i--) {
+			minThisLeft += a[i];
+			if(minThisLeft < minLeftSum)
+				minLeftSum = minThisLeft;
+		}
+		
+		int minRightSum = a[mid + 1], minThisRight = 0;
+		
+		for(int i = mid + 1; i <= right; i++) {
+			minThisRight += a[i];
+			if(minThisRight < minRightSum)
+				minRightSum = minThisRight;
+		}
+		
+		int minThisSum = minSubSumLeft;
+		
+		if(minLeftSum <0 && minRightSum < 0)
+			minThisSum = minLeftSum + minRightSum;
+		
+		return Math.min(minSubSumLeft, Math.min(minThisSum, minSubSumRight));
+	}
